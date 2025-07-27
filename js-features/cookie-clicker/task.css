@@ -1,0 +1,40 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.card {
+    max-width: 400px;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.clicker__cookie {
+    cursor: pointer;
+    transition: transform 0.1s linear;
+}
+
+.clicker__cookie.clicked {
+    transform: scale(1.1);
+}
+
+.clicker__status {
+    font-size: 1.5em;
+    color: #ff6b6b;
+    margin-bottom: 20px;
+}
+
+#clicker__counter {
+    font-weight: bold;
+    font-size: 2.5em;
+    color: #ff6b6b;
+}
