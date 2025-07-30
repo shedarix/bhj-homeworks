@@ -1,26 +1,26 @@
-// Ищем все элементы с классом ".reveal"
+// Получаем все элементы с классом "reveal"
 const reveals = document.querySelectorAll('.reveal');
 
-// Настройки нашего наблюдателя
-const options = {
-    rootMargin: '-50px 0px', // Параметр rootMargin смещает начало активации элемента ближе к верху окна
-    threshold: 0.1 // Часть элемента, которая должна появиться на экране, чтобы началась анимация
-};
+// Функция для определения видимости элемента
+function isInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.bottom >= 0
+    );
+}
 
-// Callback-обработчик для IntersectionObserver
-const callback = (entries, observer) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('reveal_active');
-            observer.unobserve(entry.target); // После появления больше не наблюдаем за данным элементом
+// Обработчик события прокрутки
+function revealOnScroll() {
+    reveals.forEach((el) => {
+        if (isInViewport(el)) {
+            el.classList.add('reveal_active');
         }
     });
-};
+}
 
-// Создаем наблюдатель
-const observer = new IntersectionObserver(callback, options);
+// Добавляем обработчик события прокрутки
+window.addEventListener('scroll', revealOnScroll);
 
-// Начинаем наблюдать за каждым элементом с классом '.reveal'
-reveals.forEach(reveal => {
-    observer.observe(reveal);
-});
+// Сразу выполняем проверку при загрузке страницы
+revealOnScroll();
