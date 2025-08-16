@@ -4,12 +4,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const welcome = document.getElementById('welcome');
     const userIdElement = document.getElementById('user_id');
 
-
-    const userId = localStorage.getItem('userId');
-    if (userId) {
+    function switchToWelcome(userId) {
         signinForm.classList.remove('signin_active');
         welcome.classList.add('welcome_active');
         userIdElement.textContent = userId;
+    }
+
+
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+        switchToWelcome(userId);
     }
 
     signinForm.addEventListener('submit', function(event) {
@@ -24,12 +28,17 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                localStorage.setItem('userId', data.userId);
-                signinForm.classList.remove('signin_active');
-                welcome.classList.add('welcome_active');
-                userIdElement.textContent = data.userId;
+
+                const userId = data.user_id;
+
+                localStorage.setItem('userId', userId);
+
+            
+                switchToWelcome(userId);
+
+                signinForm.reset();
             } else {
-                alert('Ошибка авторизации');
+                alert('Неверный логин или пароль.');
             }
         })
         .catch(error => {
